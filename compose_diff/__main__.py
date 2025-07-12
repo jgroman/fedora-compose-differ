@@ -1,0 +1,107 @@
+import argparse
+import logging
+import logging.config
+import sys
+
+from utils import (
+    diff_packages,
+    download_url,
+    get_rpms_json_url,
+    parse_compose_root,
+    parse_streamed_rpms_json,
+    URL_COMPOSE_ROOT,
+)
+
+logging.config.fileConfig("logging.conf")
+logger = logging.getLogger()
+
+
+top_parser = argparse.ArgumentParser(
+    prog="compose_diff",
+    description="Fedora Rawhide compose differ",
+)
+subparsers = top_parser.add_subparsers(dest="action", title="actions")
+
+list_parser = subparsers.add_parser(
+    "list",
+    help=f"List available compose versions at '{URL_COMPOSE_ROOT}'",
+)
+
+compare_parser = subparsers.add_parser(
+    "compare",
+    help="Compare compose versions",
+)
+compare_parser.add_argument("ver", type=str, nargs="+")
+compare_parser.add_argument(
+    "-a",
+    "--arch",
+    type=str,
+    choices=["aarch64, x86_64"],
+    default="x86_64",
+    help="Requested CPU architecture (default: %(default)s)",
+)
+compare_parser.add_argument("-j", "--json-output", action="store_true")
+
+args = top_parser.parse_args()
+
+if not args.action:
+    top_parser.print_help()
+    sys.exit()
+
+if args.action == "list":
+    try:
+        url_contents = download_url(URL_COMPOSE_ROOT)
+        compose_versions = parse_compose_root(url_contents)
+        if compose_versions:
+            print("Available Rawhide composes:")
+            for version in compose_versions:
+                print(f"    {version}")
+        else:
+            print(f"No Rawhide composes found at {URL_COMPOSE_ROOT}")
+    except Exception:
+        logger.critical(f"Failed to download composes from {URL_COMPOSE_ROOT}")
+        sys.exit(1)
+
+    sys.exit(0)
+
+if args.action == "compare":
+    logger.debug(f"ver: {args.ver}, arch: {args.arch}, json_output: {args.json_output}")
+    version_from: str = args.ver[0]
+    version_to: str = "latest" if len(args.ver) == 1 else args.ver[1]
+    logger.debug(f"Requested diff from '{version_from}' to '{version_to}'")
+
+    url_rpms_json_from = get_rpms_json_url(version_from)
+    try:
+        packages_from = parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
+    except Exception:
+        logger.critical(
+            f"Failed to process compose '{version_from}' rpms.json from '{url_rpms_json_from}'"
+        )
+        sys.exit(1)
+
+    url_rpms_json_to = get_rpms_json_url(version_to)
+    try:
+        packages_to = parse_streamed_rpms_json(url_rpms_json_to, arch=args.arch)
+    except Exception:
+        logger.critical(
+            f"Failed to process compose '{version_to}' rpms.json from {url_rpms_json_to}"
+        )
+        sys.exit(1)
+
+    result_diff = diff_packages(packages_from, packages_to)
+
+    if not args.json_output:
+        print(
+            f"======= Package diff from {version_from} to {version_to} ({args.arch}) ======="
+        )
+        print("==== Packages REMOVED")
+        for name in result_diff["removed"]:
+            print(f"     {name} REMOVED  ({packages_from.get(name, '')})")
+        print("==== Packages ADDED")
+        for name in result_diff["added"]:
+            print(f"     {name} ADDED  ({packages_to.get(name, '')})")
+        print("==== Packages CHANGED")
+        for name in result_diff["changed"]:
+            print(
+                f"     {name} CHANGED  ({packages_from.get(name, '')} -> {packages_to.get(name, '')})"
+            )

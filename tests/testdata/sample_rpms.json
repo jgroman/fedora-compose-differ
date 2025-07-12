@@ -1,0 +1,252 @@
+{
+    "header": {
+        "type": "productmd.rpms",
+        "version": "1.2"
+    },
+    "payload": {
+        "compose": {
+            "date": "20250711",
+            "id": "Fedora-Rawhide-20250711.n.0",
+            "respin": 0,
+            "type": "nightly"
+        },
+        "rpms": {
+            "Everything": {
+                "aarch64": {
+                    "0ad-0:0.0.26-30.fc43.src": {
+                        "0ad-0:0.0.26-30.fc43.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/0/0ad-0.0.26-30.fc43.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-0:0.0.26-30.fc43.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0ad-0.0.26-30.fc43.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-debuginfo-0:0.0.26-30.fc43.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/0/0ad-debuginfo-0.0.26-30.fc43.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-debugsource-0:0.0.26-30.fc43.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/0/0ad-debugsource-0.0.26-30.fc43.aarch64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0ad-data-0:0.0.26-11.fc42.src": {
+                        "0ad-data-0:0.0.26-11.fc42.noarch": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/0/0ad-data-0.0.26-11.fc42.noarch.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-data-0:0.0.26-11.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0ad-data-0.0.26-11.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0install-0:2.18-4.fc42.src": {
+                        "0install-0:2.18-4.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0install-2.18-4.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0install-debugsource-0:2.18-4.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/0/0install-debugsource-2.18-4.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-0:2.18-4.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/o/ocaml-0install-solver-2.18-4.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-debuginfo-0:2.18-4.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/o/ocaml-0install-solver-debuginfo-2.18-4.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-devel-0:2.18-4.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/o/ocaml-0install-solver-devel-2.18-4.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0xFFFF-0:0.10-13.fc42.src": {
+                        "0xFFFF-0:0.10-13.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/0/0xFFFF-0.10-13.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0xFFFF-0:0.10-13.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0xFFFF-0.10-13.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "2048-cli-0:0.9.1-23.fc42.src": {
+                        "2048-cli-0:0.9.1-23.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/2/2048-cli-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-0:0.9.1-23.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/2/2048-cli-0.9.1-23.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-debuginfo-0:0.9.1-23.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/2/2048-cli-debuginfo-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-debugsource-0:0.9.1-23.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/2/2048-cli-debugsource-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-nocurses-0:0.9.1-23.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/2/2048-cli-nocurses-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-nocurses-debuginfo-0:0.9.1-23.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/2/2048-cli-nocurses-debuginfo-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-sdl-0:0.9.1-23.fc42.aarch64": {
+                            "category": "binary",
+                            "path": "Everything/aarch64/os/Packages/2/2048-cli-sdl-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-sdl-debuginfo-0:0.9.1-23.fc42.aarch64": {
+                            "category": "debug",
+                            "path": "Everything/aarch64/debug/tree/Packages/2/2048-cli-sdl-debuginfo-0.9.1-23.fc42.aarch64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    }
+                },
+                "x86_64": {
+                    "0ad-0:0.0.26-30.fc43.src": {
+                        "0ad-0:0.0.26-30.fc43.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0ad-0.0.26-30.fc43.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-0:0.0.26-30.fc43.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/0/0ad-0.0.26-30.fc43.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-debuginfo-0:0.0.26-30.fc43.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/0/0ad-debuginfo-0.0.26-30.fc43.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-debugsource-0:0.0.26-30.fc43.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/0/0ad-debugsource-0.0.26-30.fc43.x86_64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0ad-data-0:0.0.26-11.fc42.src": {
+                        "0ad-data-0:0.0.26-11.fc42.noarch": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/0/0ad-data-0.0.26-11.fc42.noarch.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0ad-data-0:0.0.26-11.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0ad-data-0.0.26-11.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0install-0:2.18-4.fc42.src": {
+                        "0install-0:2.18-4.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0install-2.18-4.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0install-debugsource-0:2.18-4.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/0/0install-debugsource-2.18-4.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-0:2.18-4.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/o/ocaml-0install-solver-2.18-4.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-debuginfo-0:2.18-4.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/o/ocaml-0install-solver-debuginfo-2.18-4.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "ocaml-0install-solver-devel-0:2.18-4.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/o/ocaml-0install-solver-devel-2.18-4.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "0xFFFF-0:0.10-13.fc42.src": {
+                        "0xFFFF-0:0.10-13.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/0/0xFFFF-0.10-13.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "0xFFFF-0:0.10-13.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/0/0xFFFF-0.10-13.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    },
+                    "2048-cli-0:0.9.1-23.fc42.src": {
+                        "2048-cli-0:0.9.1-23.fc42.src": {
+                            "category": "source",
+                            "path": "Everything/source/tree/Packages/2/2048-cli-0.9.1-23.fc42.src.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-0:0.9.1-23.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/2/2048-cli-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-debuginfo-0:0.9.1-23.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/2/2048-cli-debuginfo-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-debugsource-0:0.9.1-23.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/2/2048-cli-debugsource-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-nocurses-0:0.9.1-23.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/2/2048-cli-nocurses-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-nocurses-debuginfo-0:0.9.1-23.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/2/2048-cli-nocurses-debuginfo-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-sdl-0:0.9.1-23.fc42.x86_64": {
+                            "category": "binary",
+                            "path": "Everything/x86_64/os/Packages/2/2048-cli-sdl-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        },
+                        "2048-cli-sdl-debuginfo-0:0.9.1-23.fc42.x86_64": {
+                            "category": "debug",
+                            "path": "Everything/x86_64/debug/tree/Packages/2/2048-cli-sdl-debuginfo-0.9.1-23.fc42.x86_64.rpm",
+                            "sigkey": "31645531"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
