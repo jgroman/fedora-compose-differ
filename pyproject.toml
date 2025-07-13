@@ -7,7 +7,7 @@ authors = [
     { name = "Jaroslav Groman", email = "jgroman@users.noreply.github.com" },
 ]
 requires-python = ">=3.9"
-dependencies = ["ijson"]
+dependencies = ["ijson", "pydantic"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
