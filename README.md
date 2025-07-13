@@ -105,9 +105,106 @@ Available Rawhide composes:
 Run `compose_diff compare <VERSION-FROM> <VERSION-TO>` to get list of packages
 removed, added or changed between to specified compose versions. If "\<VERSION-TO\>"
 is not specified, default value "latest" will be used instead.
+
+Example `compare` output (shortened for brevity):
+
+```shell
+$ compose_diff compare 20250711.n.0 20250712.n.0
+======= x86_64 package diff from 20250711.n.0 to 20250712.n.0 =======
+==== Packages REMOVED
+     gtk-unico-engine REMOVED  (0:1.0.3-0.27.20140109bzr152)
+     python-iso-639 REMOVED  (0:0.4.5-30)
+     x-tile REMOVED  (0:3.3-17)
+==== Packages ADDED
+     python-packbits ADDED  (0:0.6-1)
+     python-pyrankvote ADDED  (0:2.0.6-1)
+     wayback ADDED  (0:0~git20250711.1.8bc189f-1)
+==== Packages CHANGED
+     PyGreSQL CHANGED  (0:6.0.1-7 -> 0:6.1.0-1)
+     R-qpdf CHANGED  (0:1.4.0-1 -> 0:1.4.1-1)
+     Singular CHANGED  (0:4.4.1-2 -> 0:4.4.1-5)
+     ant CHANGED  (0:1.10.15-25 -> 0:1.10.15-27)
+     apache-commons-exec CHANGED  (0:1.4.0-1 -> 0:1.5.0-1)
+     argyllcms CHANGED  (0:3.3.0-2 -> 0:3.4.0-1)
+     asahi-installer CHANGED  (0:0.7.8-5 -> 0:0.7.9-1)
+     beets CHANGED  (0:2.3.1-1 -> 0:2.3.1-2)
+     cbmc CHANGED  (0:6.7.0-1 -> 0:6.7.1-1)
+     ccluster CHANGED  (0:1.1.7-9 -> 0:1.1.7-10)
+     ...
+```
+
+#### Selecting diffed package CPU architecture
+
 Please note that by default the diff is created by parsing **x86_64** CPU architecture
 packages. If **aarch64** architecture packages should be diffed instead, use
 `-a aarch64` or `--arch aarch64` CLI option like this:
-`compose_diff compare --arch aarch64 <VERSION-FROM> <VERSION-TO>`.
 
-Example `compare` output (shortened for brevity):
+```shell
+compose_diff compare --arch aarch64 <VERSION-FROM> <VERSION-TO>
+```
+
+#### diff in machine readable (JSON) format
+
+It is also possible to get tool output in JSON format jsut by including `-j` or
+`--json-output` CLI option:
+
+```shell
+compose_diff compare --json-output <VERSION-FROM> <VERSION-TO>
+```
+
+Example of JSON output (shortened):
+
+```shell
+➜ python compose_diff compare --json-output 20250711.n.0 20250712.n.0
+{
+    "removed": [
+        {
+            "name": "gtk-unico-engine",
+            "version": "0:1.0.3-0.27.20140109bzr152"
+        },
+        {
+            "name": "python-iso-639",
+            "version": "0:0.4.5-30"
+        },
+        {
+            "name": "x-tile",
+            "version": "0:3.3-17"
+        }
+    ],
+    "added": [
+        {
+            "name": "python-packbits",
+            "version": "0:0.6-1"
+        },
+        {
+            "name": "python-pyrankvote",
+            "version": "0:2.0.6-1"
+        },
+        {
+            "name": "wayback",
+            "version": "0:0~git20250711.1.8bc189f-1"
+        }
+    ],
+    "changed": [
+        {
+            "name": "PyGreSQL",
+            "version_from": "0:6.0.1-7",
+            "version_to": "0:6.1.0-1"
+        },
+        {
+            "name": "R-qpdf",
+            "version_from": "0:1.4.0-1",
+            "version_to": "0:1.4.1-1"
+        },
+        {
+            "name": "Singular",
+            "version_from": "0:4.4.1-2",
+            "version_to": "0:4.4.1-5"
+        },
+        {
+            "name": "ant",
+            "version_from": "0:1.10.15-25",
+            "version_to": "0:1.10.15-27"
+        },
+        ...
+```
