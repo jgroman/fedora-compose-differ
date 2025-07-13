@@ -5,7 +5,7 @@ import pytest
 import urllib.request
 import urllib.response
 
-from compose_diff.utils import (
+from compose_diff.compose_diff_utils import (
     download_url,
     parse_compose_root,
     parse_streamed_rpms_json,

@@ -1,9 +1,9 @@
 import argparse
+from importlib.metadata import version
 import logging
-import logging.config
 import sys
 
-from utils import (
+from compose_diff.compose_diff_utils import (
     diff_packages,
     download_url,
     get_rpms_json_url,
@@ -12,33 +12,50 @@ from utils import (
     URL_COMPOSE_ROOT,
 )
 
-logging.config.fileConfig("logging.conf")
+logging.basicConfig(
+    level=logging.WARNING,
+    format="%(asctime)s [%(levelname)s] %(filename)s,%(lineno)d: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 logger = logging.getLogger()
 
+try:
+    __version__ = version("compose_diff")
+except ImportError:
+    __version__ = "0.0.0.dev"
 
 top_parser = argparse.ArgumentParser(
     prog="compose_diff",
     description="Fedora Rawhide compose differ",
 )
+top_parser.add_argument(
+    "-v", "--version", action="version", version=f"%(prog)s {__version__}"
+)
+
 subparsers = top_parser.add_subparsers(dest="action", title="actions")
 
 list_parser = subparsers.add_parser(
     "list",
-    help=f"List available compose versions at '{URL_COMPOSE_ROOT}'",
+    help="List available compose versions",
+    description=f"List available compose versions at {URL_COMPOSE_ROOT}",
 )
 
 compare_parser = subparsers.add_parser(
     "compare",
     help="Compare compose versions",
+    usage="compose_diff compare [-h] [-a {aarch64, x86_64}] [-j] VERSION-FROM [VERSION-TO]",
+    description="""Compare compose versions between VERSION-FROM and VERSION-TO. If
+        VERSION-TO is not specified, the default value "latest" will be used instead.
+    """,
 )
-compare_parser.add_argument("ver", type=str, nargs="+")
+compare_parser.add_argument("ver", type=str, nargs="+", metavar="VERSION")
 compare_parser.add_argument(
     "-a",
     "--arch",
     type=str,
     choices=["aarch64, x86_64"],
     default="x86_64",
-    help="Requested CPU architecture (default: %(default)s)",
+    help="requested CPU architecture (default: %(default)s)",
 )
 compare_parser.add_argument("-j", "--json-output", action="store_true")
 
@@ -70,6 +87,21 @@ if args.action == "compare":
     version_to: str = "latest" if len(args.ver) == 1 else args.ver[1]
     logger.debug(f"Requested diff from '{version_from}' to '{version_to}'")
 
+    if version_from == version_to:
+        print("Warning: Compose versions are identical. Package diff is empty.")
+        sys.exit(0)
+
+    # Version strings are compared lexicographically, this works also for
+    # "latest" version since it is "newer" than anything startting with numbers :)
+    if version_from > version_to:
+        print("Error: Compose VERSION-FROM is newer than VERSION-TO")
+        sys.exit(1)
+
+    if not args.json_output:
+        print(
+            f"======= {args.arch} package diff from {version_from} to {version_to} ======="
+        )
+
     url_rpms_json_from = get_rpms_json_url(version_from)
     try:
         packages_from = parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
@@ -91,9 +123,6 @@ if args.action == "compare":
     result_diff = diff_packages(packages_from, packages_to)
 
     if not args.json_output:
-        print(
-            f"======= Package diff from {version_from} to {version_to} ({args.arch}) ======="
-        )
         print("==== Packages REMOVED")
         for name in result_diff["removed"]:
             print(f"     {name} REMOVED  ({packages_from.get(name, '')})")
