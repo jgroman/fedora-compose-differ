@@ -145,7 +145,7 @@ compose_diff compare --arch aarch64 <VERSION-FROM> <VERSION-TO>
 
 #### diff in machine readable (JSON) format
 
-It is also possible to get tool output in JSON format jsut by including `-j` or
+It is also possible to get tool output in JSON format just by including `-j` or
 `--json-output` CLI option:
 
 ```shell
