@@ -3,7 +3,7 @@ from importlib.metadata import version
 import logging
 import sys
 
-from compose_diff.compose_diff_utils import (
+from compose_diff_utils import (
     diff_packages,
     download_url,
     get_rpms_json_url,
@@ -11,6 +11,7 @@ from compose_diff.compose_diff_utils import (
     parse_streamed_rpms_json,
     URL_COMPOSE_ROOT,
 )
+
 
 logging.basicConfig(
     level=logging.WARNING,
@@ -120,17 +121,22 @@ if args.action == "compare":
         )
         sys.exit(1)
 
-    result_diff = diff_packages(packages_from, packages_to)
+    pkg_diff = diff_packages(packages_from, packages_to)
 
     if not args.json_output:
+        # Human readable output
         print("==== Packages REMOVED")
-        for name in result_diff["removed"]:
-            print(f"     {name} REMOVED  ({packages_from.get(name, '')})")
+        for pkg_removed in pkg_diff.removed:
+            print(f"     {pkg_removed.name} REMOVED  ({pkg_removed.version})")
         print("==== Packages ADDED")
-        for name in result_diff["added"]:
-            print(f"     {name} ADDED  ({packages_to.get(name, '')})")
+        for pkg_added in pkg_diff.added:
+            print(f"     {pkg_added.name} ADDED  ({pkg_added.version})")
         print("==== Packages CHANGED")
-        for name in result_diff["changed"]:
+        for pkg_changed in pkg_diff.changed:
             print(
-                f"     {name} CHANGED  ({packages_from.get(name, '')} -> {packages_to.get(name, '')})"
+                f"     {pkg_changed.name} CHANGED  ({pkg_changed.version_from} -> {pkg_changed.version_to})"
             )
+
+    else:
+        # Machine readdable output
+        print(pkg_diff.model_dump_json(indent=4))

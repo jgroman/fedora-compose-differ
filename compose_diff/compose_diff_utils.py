@@ -13,6 +13,13 @@ except ImportError:
     logging.error("Module 'ijson' is not available. Please install it first.")
     sys.exit(1)
 
+try:
+    from pydantic import BaseModel
+except ImportError:
+    logging.error("Module 'pydantic' is not available. Please install it first.")
+    sys.exit(1)
+
+
 URL_COMPOSE_ROOT = "https://kojipkgs.fedoraproject.org/compose/rawhide/"
 RE_COMPOSE_VERSION_PATTERN = r"<a href=\"Fedora-Rawhide-(\d+\.\S\.\d+)/\">"
 RE_LATEST_VERSION_PATTERN = r"<a href=\"latest-Fedora-Rawhide/\">"
@@ -20,6 +27,28 @@ RE_LATEST_VERSION_PATTERN = r"<a href=\"latest-Fedora-Rawhide/\">"
 URL_RPMS_JSON_TEMPLATE = "{url_root}{full_version}/compose/metadata/rpms.json"
 
 logger = logging.getLogger()
+
+
+class PkgRemovedModel(BaseModel):
+    name: str
+    version: str
+
+
+class PkgAddedModel(BaseModel):
+    name: str
+    version: str
+
+
+class PkgChangedModel(BaseModel):
+    name: str
+    version_from: str
+    version_to: str
+
+
+class PkgDiffModel(BaseModel):
+    removed: list[PkgRemovedModel]
+    added: list[PkgAddedModel]
+    changed: list[PkgChangedModel]
 
 
 def download_url(url_root) -> str:
@@ -75,20 +104,25 @@ def parse_streamed_rpms_json(url_json: str, arch: str = "x86_64") -> dict[str, s
         raise
 
 
-def diff_packages(
-    dict_from: dict[str, str], dict_to: dict[str, str]
-) -> dict[str, list[str]]:
-    logger.debug("Diffing packages")
-
-    removed = [name for name in dict_from if name not in dict_to]
-    added = [name for name in dict_to if name not in dict_from]
-    changed = [
-        name
-        for name in dict_to
-        if name in dict_from and dict_from[name] != dict_to[name]
-    ]
-    return {
-        "removed": removed,
-        "added": added,
-        "changed": changed,
-    }
+def diff_packages(dict_from: dict[str, str], dict_to: dict[str, str]) -> PkgDiffModel:
+    return PkgDiffModel(
+        removed=[
+            PkgRemovedModel(name=name, version=version)
+            for (name, version) in dict_from.items()
+            if name not in dict_to
+        ],
+        added=[
+            PkgAddedModel(name=name, version=version)
+            for (name, version) in dict_to.items()
+            if name not in dict_from
+        ],
+        changed=[
+            PkgChangedModel(
+                name=name,
+                version_from=dict_from[name],
+                version_to=dict_to[name],
+            )
+            for name in dict_to
+            if name in dict_from and dict_from[name] != dict_to[name]
+        ],
+    )
