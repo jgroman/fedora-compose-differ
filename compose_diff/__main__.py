@@ -15,7 +15,7 @@ from .utils import (
 
 logging.basicConfig(
     level=logging.WARNING,
-    format="%(asctime)s [%(levelname)s] %(filename)s,%(lineno)d: %(message)s",
+    format="%(asctime)s [%(levelname)8s] %(filename)s,%(lineno)d: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger()
@@ -98,12 +98,8 @@ if args.action == "compare":
         print("Error: Compose VERSION-FROM is newer than VERSION-TO")
         sys.exit(1)
 
-    if not args.json_output:
-        print(
-            f"======= {args.arch} package diff from {version_from} to {version_to} ======="
-        )
-
     url_rpms_json_from = get_rpms_json_url(version_from)
+    print(f"Please wait, downloading '{version_from}' version rpms.json")
     try:
         packages_from = parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
     except Exception:
@@ -113,6 +109,7 @@ if args.action == "compare":
         sys.exit(1)
 
     url_rpms_json_to = get_rpms_json_url(version_to)
+    print(f"Please wait, downloading '{version_to}' version rpms.json")
     try:
         packages_to = parse_streamed_rpms_json(url_rpms_json_to, arch=args.arch)
     except Exception:
@@ -125,6 +122,9 @@ if args.action == "compare":
 
     if not args.json_output:
         # Human readable output
+        print(
+            f"======= {args.arch} package diff from {version_from} to {version_to} ======="
+        )
         print("==== Packages REMOVED")
         for pkg_removed in pkg_diff.removed:
             print(f"     {pkg_removed.name} REMOVED  ({pkg_removed.version})")

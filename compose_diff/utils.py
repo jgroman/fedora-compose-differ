@@ -55,7 +55,7 @@ class PkgDiffModel(BaseModel):
 def download_url(url_root) -> str:
     """Download URL contents"""
 
-    logger.debug(f"Downloading from '{url_root}'")
+    logger.debug(f"Downloading: '{url_root}'")
     try:
         with request.urlopen(url_root) as root_index:
             root_html = root_index.read().decode("utf-8")
@@ -93,6 +93,11 @@ def get_rpms_json_url(version: str) -> str:
 
 def parse_streamed_rpms_json(url_json: str, arch: str = "x86_64") -> dict[str, str]:
     """Parse rpms.json during its download"""
+
+    # Using ijson for JSON parsing since it does incremental parsing and has much 
+    # lower memory consuption than standard or pydantic parser. This will enable
+    # parsing of JSON files of arbitrary size. The tradeoff is that ijson parser
+    # is slower.
 
     logger.debug(f"Streaming rpms.json from '{url_json}'")
     try:
