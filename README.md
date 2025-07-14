@@ -7,20 +7,21 @@ and computes package change-set diff between selected compose build versions.
 
 ## Installation
 
+### Run script from cloned repository
+
+1. Clone this repository
+2. Install dependencies in the Python environment (system Python / virtualenv / pyenv / etc.)
+in which you intend to use this tool by running `pip install -r requirements.txt`
+from repo root directory.
+3. Now you can start the tool by running `python3 -m compose_diff` from repo root directory.
+
 ### Install as Python package
 
-1. Clone this repo
+1. Clone this repository
 2. Run `pip install .` in cloned repo root directory. This will install tool package.
 3. Now you can invoke `compose_diff` from any directory provided your Python package
 paths are setup properly.
 
-### One-time use
-
-1. Clone this repo
-2. Install dependencies in the Python environment (system Python / virtualenv / pyenv / etc.)
-in which you intend to use this tool by running `pip install -r requirements.txt`
-from repo root directory.
-3. Now you can start the tool by running `python3 compose_diff` from repo root directory.
 
 ## Usage
 

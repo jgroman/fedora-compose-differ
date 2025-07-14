@@ -3,7 +3,7 @@ from importlib.metadata import version
 import logging
 import sys
 
-from compose_diff_utils import (
+from .utils import (
     diff_packages,
     download_url,
     get_rpms_json_url,
