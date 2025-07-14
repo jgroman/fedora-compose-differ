@@ -60,7 +60,12 @@ def main():
         default="x86_64",
         help="requested CPU architecture (default: %(default)s)",
     )
-    compare_parser.add_argument("-j", "--json-output", action="store_true")
+    compare_parser.add_argument(
+        "-j", 
+        "--json-output", 
+        action="store_true", 
+        help="Machine readable output in JSON format",
+    )
 
     args = top_parser.parse_args()
 
