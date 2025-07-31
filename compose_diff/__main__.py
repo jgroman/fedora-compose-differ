@@ -26,7 +26,7 @@ except ImportError:
     __version__ = "0.0.0.dev"
 
 
-async def main():
+def main():
     top_parser = argparse.ArgumentParser(
         prog="compose_diff",
         description="Fedora Rawhide compose differ",
@@ -113,15 +113,12 @@ async def main():
             f"Please wait, downloading '{version_from}' and '{version_to}' version rpms.json"
         )
         try:
-            packages_from_task = asyncio.create_task(
+            packages_from = asyncio.run(
                 parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
             )
-            packages_to_task = asyncio.create_task(
+            packages_to = asyncio.run(
                 parse_streamed_rpms_json(url_rpms_json_to, arch=args.arch)
             )
-            results = await asyncio.gather(packages_from_task, packages_to_task)
-            packages_from = results[0]
-            packages_to = results[1]
         except Exception as err:
             logger.critical(f"Failed to process compose rpms.json: {err}")
             sys.exit(1)
@@ -151,4 +148,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
