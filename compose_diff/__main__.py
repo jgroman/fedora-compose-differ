@@ -1,4 +1,5 @@
 import argparse
+import asyncio
 from importlib.metadata import version
 import logging
 import sys
@@ -24,9 +25,8 @@ try:
 except ImportError:
     __version__ = "0.0.0.dev"
 
-def main():
 
-
+async def main():
     top_parser = argparse.ArgumentParser(
         prog="compose_diff",
         description="Fedora Rawhide compose differ",
@@ -61,9 +61,9 @@ def main():
         help="requested CPU architecture (default: %(default)s)",
     )
     compare_parser.add_argument(
-        "-j", 
-        "--json-output", 
-        action="store_true", 
+        "-j",
+        "--json-output",
+        action="store_true",
         help="Machine readable output in JSON format",
     )
 
@@ -90,7 +90,9 @@ def main():
         sys.exit(0)
 
     if args.action == "compare":
-        logger.debug(f"ver: {args.ver}, arch: {args.arch}, json_output: {args.json_output}")
+        logger.debug(
+            f"ver: {args.ver}, arch: {args.arch}, json_output: {args.json_output}"
+        )
         version_from: str = args.ver[0]
         version_to: str = "latest" if len(args.ver) == 1 else args.ver[1]
         logger.debug(f"Requested diff from '{version_from}' to '{version_to}'")
@@ -106,23 +108,22 @@ def main():
             sys.exit(1)
 
         url_rpms_json_from = get_rpms_json_url(version_from)
-        print(f"Please wait, downloading '{version_from}' version rpms.json")
-        try:
-            packages_from = parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
-        except Exception:
-            logger.critical(
-                f"Failed to process compose '{version_from}' rpms.json from '{url_rpms_json_from}'"
-            )
-            sys.exit(1)
-
         url_rpms_json_to = get_rpms_json_url(version_to)
-        print(f"Please wait, downloading '{version_to}' version rpms.json")
+        print(
+            f"Please wait, downloading '{version_from}' and '{version_to}' version rpms.json"
+        )
         try:
-            packages_to = parse_streamed_rpms_json(url_rpms_json_to, arch=args.arch)
-        except Exception:
-            logger.critical(
-                f"Failed to process compose '{version_to}' rpms.json from {url_rpms_json_to}"
+            packages_from_task = asyncio.create_task(
+                parse_streamed_rpms_json(url_rpms_json_from, arch=args.arch)
             )
+            packages_to_task = asyncio.create_task(
+                parse_streamed_rpms_json(url_rpms_json_to, arch=args.arch)
+            )
+            results = await asyncio.gather(packages_from_task, packages_to_task)
+            packages_from = results[0]
+            packages_to = results[1]
+        except Exception as err:
+            logger.critical(f"Failed to process compose rpms.json: {err}")
             sys.exit(1)
 
         pkg_diff = diff_packages(packages_from, packages_to)
@@ -148,5 +149,6 @@ def main():
             # Machine readdable output
             print(pkg_diff.model_dump_json(indent=4))
 
+
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

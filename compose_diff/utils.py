@@ -91,10 +91,12 @@ def get_rpms_json_url(version: str) -> str:
     )
 
 
-def parse_streamed_rpms_json(url_json: str, arch: str = "x86_64") -> dict[str, str]:
+async def parse_streamed_rpms_json(
+    url_json: str, arch: str = "x86_64"
+) -> dict[str, str]:
     """Parse rpms.json during its download"""
 
-    # Using ijson for JSON parsing since it does incremental parsing and has much 
+    # Using ijson for JSON parsing since it does incremental parsing and has much
     # lower memory consuption than standard or pydantic parser. This will enable
     # parsing of JSON files of arbitrary size. The tradeoff is that ijson parser
     # is slower.
