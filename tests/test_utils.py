@@ -1,3 +1,4 @@
+import asyncio
 from email.message import EmailMessage
 import io
 import logging
@@ -5,7 +6,7 @@ import pytest
 import urllib.request
 import urllib.response
 
-from compose_diff.compose_diff_utils import (
+from compose_diff.utils import (
     diff_packages,
     download_url,
     parse_compose_root,
@@ -118,7 +119,7 @@ def test_parse_streamed_rpms_json(monkeypatch, mock_rpms_json_content):
         )
 
     monkeypatch.setattr(urllib.request, "urlopen", mock_urlopen)
-    packages = parse_streamed_rpms_json("mock-rpms.json-url")
+    packages = asyncio.run(parse_streamed_rpms_json("mock-rpms.json-url"))
 
     assert packages == {
         "0ad": "0:0.0.26-30",
