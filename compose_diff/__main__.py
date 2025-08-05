@@ -56,7 +56,7 @@ def main():
         "-a",
         "--arch",
         type=str,
-        choices=["aarch64, x86_64"],
+        choices=["aarch64", "x86_64"],
         default="x86_64",
         help="requested CPU architecture (default: %(default)s)",
     )
